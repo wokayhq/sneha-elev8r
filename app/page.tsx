@@ -11,9 +11,8 @@ import { cn } from "@/lib/utils";
 import {
   ArrowRight,
   Home as HomeIcon,
-  Building2,
   Building,
-  Cog,
+  Sun,
   Weight,
   Award,
   Users,
@@ -53,10 +52,12 @@ function SectionHead({
   return (
     <Reveal className={cn("mx-auto mb-12 flex max-w-[780px] flex-col items-center gap-[18px] text-center", headClass)}>
       <span className={FLOOR_TAG}>{tag}</span>
-      <h2 className={cn("text-[clamp(30px,3.6vw,44px)] font-bold leading-[1.06] tracking-[-0.02em] text-[#17181a]", titleClass)}>
-        {title}
-      </h2>
-      <p className={cn("max-w-[640px] text-[16px] leading-[1.65] text-[#5a5c60]", subClass)}>{sub}</p>
+      <div className="flex flex-col items-center gap-[6px]">
+        <h2 className={cn("text-[clamp(30px,3.6vw,44px)] font-bold leading-[1.06] tracking-[-0.02em] text-[#17181a]", titleClass)}>
+          {title}
+        </h2>
+        <p className={cn("max-w-[640px] text-[16px] leading-[1.65] text-[#5a5c60]", subClass)}>{sub}</p>
+      </div>
     </Reveal>
   );
 }
@@ -90,16 +91,16 @@ const PRODUCTS: Product[] = [
     code: "VL Series", sub: "Residential elevator", badge: "For residential apartments",
     title: "Smart, space-efficient elevators",
     specs: [["Drive", "Machine-Room-Less"], ["Capacity", "4–30 persons"], ["Best for", "Apartments & offices"]],
-    icon: <Building2 strokeWidth={1.9} />, img: "/design/prod-vl.png",
+    icon: <HomeIcon strokeWidth={1.9} />, img: "/design/prod-vl.png",
   },
   {
     code: "RMG Series", sub: "Highrise elevator", badge: "For highrise places",
     title: "Performance and economy for mid-to-high-rise",
     specs: [["Drive", "Gearless traction"], ["Capacity", "4–30 persons"], ["Best for", "Mid to high-rise"]],
-    icon: <Building strokeWidth={1.9} />, img: "/design/prod-rmg.png", featured: true,
+    icon: <HomeIcon strokeWidth={1.9} />, img: "/design/prod-rmg.png", featured: true,
   },
 ];
-const SPEC_ICONS = [Cog, Weight, Building2];
+const SPEC_ICONS = [Sun, Weight, Building];
 
 type Advantage = { icon: ReactNode; title: string; desc: string };
 const WHY: Advantage[] = [
@@ -189,11 +190,19 @@ export default function Home() {
     }
   }
 
-  function enter() {
+  function enter(target = "") {
     const r = reduced.current;
     setPhase("arming");
     setTimeout(() => { ding(); setPhase("open"); }, r ? 50 : 700);
-    setTimeout(() => setPhase("done"), r ? 120 : 2050);
+    setTimeout(() => {
+      setPhase("done");
+      /* once the doors are open and the page is unlocked, ride to the chosen floor */
+      if (target) {
+        setTimeout(() => {
+          document.getElementById(target)?.scrollIntoView({ behavior: r ? "auto" : "smooth", block: "start" });
+        }, 80);
+      }
+    }, r ? 120 : 2050);
   }
 
   const preArrival = phase === "lobby" || phase === "arming";
@@ -219,8 +228,8 @@ export default function Home() {
         <section id="hero" className="hero-bg relative isolate -mt-20 flex min-h-[100svh] flex-col overflow-hidden pt-[20px] pb-10 text-white">
           <div className="absolute inset-y-0 right-0 -z-10 w-[62%]" aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/design/hero-cabin.png" alt="" className="h-full w-full object-cover object-center" />
-            <div className="hero-shade absolute inset-0" />
+            <img src="/design/hero-cabin.png" alt="" className="h-full w-full object-cover object-[43%_center]" />
+            {/* <div className="hero-shade absolute inset-0" /> */}
           </div>
 
           <div className={cn(WRAP, "mt-auto flex flex-col items-start")}>
@@ -300,10 +309,10 @@ export default function Home() {
                 >
                   <div className="relative h-[191px] shrink-0 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.img} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[600ms] [transition-timing-function:var(--ease-out)] group-hover:scale-105" />
+                    <img src={p.img} alt="" loading="lazy" className="h-full w-full object-cover" />
                     <span className="absolute left-4 top-3 rounded-full border border-white/35 bg-black/[0.42] px-[13px] py-[7px] text-[11px] font-medium uppercase tracking-[0.14em] text-white backdrop-blur-[6px]">{p.badge}</span>
                   </div>
-                  <div className="flex flex-1 flex-col p-[26px]">
+                  <div className="flex flex-1 flex-col px-[26px] pt-[26px] pb-[28px]">
                     <div className="flex items-center gap-[14px] pb-5">
                       <span className="flex h-[37px] w-[37px] shrink-0 items-center justify-center rounded-xl bg-gradient-to-b from-[#e8503f] to-[#b22a1e] text-white [&_svg]:h-[21px] [&_svg]:w-[21px]" aria-hidden="true">{p.icon}</span>
                       <span className="flex flex-col">
@@ -314,7 +323,7 @@ export default function Home() {
                     <h3 className="max-w-[240px] text-[16px] font-bold leading-[1.18] text-[#17181a]">{p.title}</h3>
                     <div className="mt-[18px] flex flex-col">
                       {p.specs.map(([k, v], si) => {
-                        const Ico = SPEC_ICONS[si] ?? Cog;
+                        const Ico = SPEC_ICONS[si] ?? Sun;
                         return (
                           <div key={k} className="flex items-center gap-[13px] py-2">
                             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(217,58,43,0.16)] bg-white text-[#d93a2b] [&_svg]:h-[19px] [&_svg]:w-[19px]" aria-hidden="true">
@@ -426,7 +435,7 @@ export default function Home() {
               {PROJECTS_PORTFOLIO.map((p, i) => (
                 <Reveal key={p.title} delay={i * 80} className="group relative h-[300px] overflow-hidden rounded-[20px] border border-[rgba(23,24,26,0.06)] hover:[translate:0_-5px] hover:shadow-[0_26px_54px_rgba(23,24,26,0.18)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.img} alt={p.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[600ms] [transition-timing-function:var(--ease-out)] group-hover:scale-105" />
+                  <img src={p.img} alt={p.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
                   <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent,rgba(12,13,14,0.92)_62%)] px-[21px] pt-16 pb-5 text-white">
                     <h4 className="text-[17px] font-bold">{p.title}</h4>
                     <span className="mt-1.5 block text-[11px] uppercase tracking-[0.12em] text-white/90">{p.meta}</span>

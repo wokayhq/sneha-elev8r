@@ -2,15 +2,16 @@
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
 
-type Lift = { key: string; target: string; title: string; desc: string };
+type Lift = { key: string; target: string; title: string; desc: string; wide?: boolean };
 
+/* Call-panel buttons double as a site directory — each floor lands you at a
+   section once the doors open. Empty target = home (top of the page). */
 const LIFTS: Lift[] = [
-  { key: "P", target: "p-passenger", title: "Passenger Lift", desc: "Apartments & offices" },
-  { key: "H", target: "p-home", title: "Home Lift", desc: "Villas & duplexes" },
-  { key: "+", target: "p-hospital", title: "Hospital Lift", desc: "Stretcher & bed lifts" },
-  { key: "G", target: "p-goods", title: "Goods Lift", desc: "Warehouses & factories" },
-  { key: "C", target: "p-capsule", title: "Capsule Lift", desc: "Panoramic glass cabins" },
-  { key: "↑", target: "", title: "Just Looking", desc: "Take me to the lobby" },
+  { key: "P", target: "", title: "Home page", desc: "Apartments & offices", wide: true },
+  { key: "+", target: "products", title: "Our range", desc: "Stretcher & bed lifts" },
+  { key: "G", target: "services", title: "Our services", desc: "Warehouses & factories" },
+  { key: "C", target: "why", title: "Why us", desc: "Panoramic glass cabins" },
+  { key: "↑", target: "trust", title: "Testimonials", desc: "Take me to the lobby" },
 ];
 
 export default function Lobby({
@@ -53,36 +54,40 @@ export default function Lobby({
         <div className="lobby-kicker">Call panel · Please select</div>
         <div className="lobby-title">Which lift are you looking&nbsp;for?</div>
         <p className="lobby-sub">Press a button. We'll take you up.</p>
-        <div className="plate">
-          <div className="plate-display" aria-hidden="true">
-            <span className={`pd-arrow ${lit ? "go" : ""}`}>▲</span>
-            <span className="pd-floor">{lit ?? "G"}</span>
-            <span className="pd-sep" />
-            <span className="pd-label">{lit ? "Going up" : "Select floor"}</span>
+        <div className="cop">
+          <div className="plate">
+            <div className="plate-display" aria-hidden="true">
+              <div className="pd-top">
+                <span className={`pd-arrow ${lit ? "go" : ""}`}>▲</span>
+                <span className="pd-floor">{lit ?? "G"}</span>
+              </div>
+              <span className="pd-rule" />
+              <span className="pd-label">{lit ? "Going up" : "Select floor"}</span>
+            </div>
+            <div className="plate-head" aria-hidden="true">
+              Select destination
+            </div>
+            {LIFTS.map((lift) => (
+              <button
+                key={lift.title}
+                className={`call-btn ${lift.wide ? "wide" : ""} ${lit === lift.key ? "lit" : ""}`}
+                onClick={() => press(lift)}
+              >
+                <span className="btn-ring">{lift.key}</span>
+                <span>
+                  <span className="t">{lift.title}</span>
+                  <span className="d">{lift.desc}</span>
+                </span>
+              </button>
+            ))}
+            <div className="plate-cert" aria-hidden="true">
+              Rated load 544 kg · 8 passengers · IS 14665
+            </div>
           </div>
-          <div className="plate-head" aria-hidden="true">
-            Select destination
-          </div>
-          {LIFTS.map((lift) => (
-            <button
-              key={lift.title}
-              className={`call-btn ${lit === lift.key ? "lit" : ""}`}
-              onClick={() => press(lift)}
-            >
-              <span className="btn-ring">{lift.key}</span>
-              <span>
-                <span className="t">{lift.title}</span>
-                <span className="d">{lift.desc}</span>
-              </span>
-            </button>
-          ))}
-          <div className="plate-cert" aria-hidden="true">
-            Rated load 544 kg · 8 passengers · IS 14665
-          </div>
+          <button className="lobby-skip" onClick={() => onSelect("")}>
+            Skip · Enter site
+          </button>
         </div>
-        <button className="lobby-skip" onClick={() => onSelect("")}>
-          Skip · Enter site
-        </button>
       </div>
     </div>
   );
