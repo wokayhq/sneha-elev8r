@@ -219,7 +219,7 @@ export default function Home() {
         <section id="hero" className="hero-bg relative isolate -mt-20 flex min-h-[100svh] flex-col overflow-hidden pt-[20px] pb-10 text-white">
           <div className="absolute inset-y-0 right-0 -z-10 w-[62%]" aria-hidden="true">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/design/hero-cabin.png" alt="" className="h-full w-full object-cover object-[430%_center]" />
+            <img src="/design/hero-cabin.png" alt="" className="h-full w-full object-cover object-center" />
             <div className="hero-shade absolute inset-0" />
           </div>
 
