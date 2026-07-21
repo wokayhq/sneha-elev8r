@@ -261,10 +261,10 @@ export default function Home() {
               {HERO_STATS.flatMap((st, i) => {
                 const item = (
                   <div key={st.l} className="flex items-center gap-3">
-                    <span className="flex shrink-0 text-[#d93a2b] [&_svg]:h-[30px] [&_svg]:w-[30px]" aria-hidden="true">{st.icon}</span>
+                    <span className="flex shrink-0 text-[#d93a2b] [&_svg]:h-[40px] [&_svg]:w-[40px]" aria-hidden="true">{st.icon}</span>
                     <span className="flex flex-col gap-0.5">
-                      <b className="text-[22px] font-bold leading-none text-white">
-                        {st.n}<em className="not-italic text-[#d93a2b]">{st.s}</em>
+                      <b className="text-[28px] font-bold leading-none text-white">
+                        {st.n}<em className="not-italic text-white ">{st.s}</em>
                       </b>
                       <span className="text-[12px] font-medium text-white/55">{st.l}</span>
                     </span>
