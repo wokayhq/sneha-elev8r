@@ -28,7 +28,7 @@ export default function Lobby({
   /* no choice after 4s? open the doors anyway */
   useEffect(() => {
     if (lit !== null || fading) return;
-    const t = setTimeout(() => onSelect(""), 4000);
+    const t = setTimeout(() => onSelect(""), 7000);
     return () => clearTimeout(t);
   }, [lit, fading, onSelect]);
 
