@@ -7,11 +7,11 @@ type Lift = { key: string; target: string; title: string; desc: string; wide?: b
 /* Call-panel buttons double as a site directory — each floor lands you at a
    section once the doors open. Empty target = home (top of the page). */
 const LIFTS: Lift[] = [
-  { key: "P", target: "", title: "Home page", desc: "Apartments & offices", wide: true },
-  { key: "+", target: "products", title: "Our range", desc: "Stretcher & bed lifts" },
-  { key: "G", target: "services", title: "Our services", desc: "Warehouses & factories" },
-  { key: "C", target: "why", title: "Why us", desc: "Panoramic glass cabins" },
-  { key: "↑", target: "trust", title: "Testimonials", desc: "Take me to the lobby" },
+  { key: "P", target: "", title: "Villa lifts", desc: "Apartments & offices", wide: true },
+  { key: "+", target: "products", title: "Apartment lifts", desc: "Stretcher & bed lifts" },
+  { key: "G", target: "services", title: "Hospital lifts", desc: "Warehouses & factories" },
+  { key: "C", target: "why", title: "Service lifts", desc: "Panoramic glass cabins" },
+  { key: "↑", target: "trust", title: "Home", desc: "Take me to the lobby" },
 ];
 
 export default function Lobby({
@@ -75,7 +75,7 @@ export default function Lobby({
               >
                 <span className="btn-ring">{lift.key}</span>
                 <span>
-                  <span className="t">{lift.title}</span>
+                  <span className="text-base">{lift.title}</span>
                   <span className="d">{lift.desc}</span>
                 </span>
               </button>
